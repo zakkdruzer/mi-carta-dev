@@ -1,11 +1,18 @@
 <!doctype html>
 <html lang="es" data-theme="dark">
   <head>
+    <!-- =====================================================
+       CONFIGURACIÓN GENERAL DEL DOCUMENTO
+       ===================================================== -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zakkdruzer — Carta Dev</title>
 
-    <!-- Fuente: Orbitron (display) + Exo 2 (cuerpo) — tono sci-fi / TCG -->
+    <!-- =====================================================
+       FUENTES EXTERNAS
+       Orbitron: para títulos con estilo futurista
+       Exo 2: para textos generales
+       ===================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,162 +20,266 @@
       rel="stylesheet"
     />
 
+    <!-- Hoja de estilos principal -->
     <link rel="stylesheet" href="estilos.css" />
 
     <!-- jQuery desde CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
-  <body>
-    <!-- Fondo de partículas / ambiente -->
+  <body class="modo-noche">
+    <!-- Fondo visual decorativo -->
     <div class="bg-fx" aria-hidden="true"></div>
 
-    <!-- =========================================================
-       CARTA
-  ========================================================== -->
+    <!-- =====================================================
+       CONTROLES EXTERNOS
+       Botón global para cambiar entre modo noche y modo día
+       ===================================================== -->
+    <section class="panel-controles" aria-label="Controles externos">
+      <p class="panel-controles__texto">Controles externos</p>
+      <button id="btn-modo" type="button">Modo día</button>
+    </section>
+
+    <!-- =====================================================
+       CONTENEDOR CENTRAL DE LA EXPERIENCIA
+       ===================================================== -->
     <main class="escenario">
-      <article
-        class="carta rareza-epica"
-        role="region"
-        aria-label="Carta de desarrollador"
-      >
-        <!-- ── Cabecera ── -->
-        <header class="carta__header">
-          <div class="carta__clase" id="clase-dev">Front-end</div>
-          <h1 class="carta__nombre">Zakkdruzer</h1>
-          <span class="carta__subtitulo">Web Dev · Game Crafter</span>
-        </header>
+      <!-- Wrapper con perspectiva para el efecto flip 3D -->
+      <div class="carta-wrap">
+        <!--
+        carta-inner es el contenedor que rota.
+        Si tiene la clase .volteada, muestra el reverso.
+      -->
+        <div class="carta-inner">
+          <!-- =================================================
+             FRENTE DE LA CARTA
+             ================================================= -->
+          <article
+            class="carta frente rareza-epica"
+            role="region"
+            aria-label="Carta frontal de desarrollador"
+          >
+            <!-- Cabecera principal -->
+            <header class="carta__header">
+              <div class="carta__clase" id="clase-dev">Front-end</div>
+              <h1 class="carta__nombre">Zakkdruzer</h1>
+              <span class="carta__subtitulo">Web Dev · Game Crafter</span>
+            </header>
 
-        <!-- ── Avatar ── -->
-        <div class="carta__avatar" aria-label="Avatar del desarrollador">
-          <!-- Opción A: DiceBear avatar SVG (sin JS necesario) -->
-          <img
-            id="avatar-dev"
-            src="https://api.dicebear.com/7.x/bottts/svg?seed=Zakkdruzer&backgroundColor=1a1a2e"
-            alt="Avatar de Zakkdruzer"
-            width="160"
-            height="160"
-            loading="eager"
-            class="carta__avatar-img"
-          />
-        </div>
-
-        <!-- ── Rareza ── -->
-        <div class="carta__rareza-badge">
-          <span class="rareza" id="rareza-texto">✦ Épica ✦</span>
-        </div>
-
-        <!-- ── Estadísticas ── -->
-        <section class="carta__stats" aria-label="Estadísticas de tecnologías">
-          <h2 class="carta__section-title">Estadísticas</h2>
-
-          <ul class="stats-lista" role="list">
-            <li class="stat-item">
-              <span class="stat-nombre">HTML / CSS</span>
-              <div
-                class="stat-barra-wrap"
-                role="progressbar"
-                aria-valuenow="90"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-label="HTML CSS 90"
-              >
-                <div class="stat-barra" style="--valor: 90%"></div>
-              </div>
-              <span class="stat-valor">90</span>
-            </li>
-
-            <li class="stat-item">
-              <span class="stat-nombre">JavaScript</span>
-              <div
-                class="stat-barra-wrap"
-                role="progressbar"
-                aria-valuenow="78"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-label="JavaScript 78"
-              >
-                <div class="stat-barra" style="--valor: 78%"></div>
-              </div>
-              <span class="stat-valor">78</span>
-            </li>
-
-            <li class="stat-item">
-              <span class="stat-nombre">jQuery</span>
-              <div
-                class="stat-barra-wrap"
-                role="progressbar"
-                aria-valuenow="72"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-label="jQuery 72"
-              >
-                <div class="stat-barra" style="--valor: 72%"></div>
-              </div>
-              <span class="stat-valor">72</span>
-            </li>
-
-            <li class="stat-item">
-              <span class="stat-nombre">Godot / GDScript</span>
-              <div
-                class="stat-barra-wrap"
-                role="progressbar"
-                aria-valuenow="65"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-label="Godot 65"
-              >
-                <div class="stat-barra" style="--valor: 65%"></div>
-              </div>
-              <span class="stat-valor">65</span>
-            </li>
-
-            <li class="stat-item">
-              <span class="stat-nombre">Git / GitHub</span>
-              <div
-                class="stat-barra-wrap"
-                role="progressbar"
-                aria-valuenow="70"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-label="Git 70"
-              >
-                <div class="stat-barra" style="--valor: 70%"></div>
-              </div>
-              <span class="stat-valor">70</span>
-            </li>
-          </ul>
-        </section>
-
-        <!-- ── Habilidad especial ── -->
-        <section class="carta__habilidad" aria-label="Habilidad especial">
-          <h2 class="carta__section-title">Habilidad especial</h2>
-          <div class="habilidad-card">
-            <span class="habilidad-icono" aria-hidden="true">⚡</span>
-            <div>
-              <strong class="habilidad-nombre">Debug Dimensional</strong>
-              <p class="habilidad-desc">
-                Detecta bugs en código ajeno antes de que el compilador los vea.
-              </p>
+            <!-- Avatar principal -->
+            <div class="carta__avatar" aria-label="Avatar del desarrollador">
+              <img
+                id="avatar-dev"
+                src="https://api.dicebear.com/7.x/bottts/svg?seed=Zakkdruzer&backgroundColor=1a1a2e"
+                alt="Avatar de Zakkdruzer"
+                width="160"
+                height="160"
+                loading="eager"
+                class="carta__avatar-img"
+              />
             </div>
-          </div>
-        </section>
 
-        <!-- ── Dato curioso ── -->
-        <section class="carta__dato" aria-label="Dato curioso">
-          <p>📍 Desarrolla desde el fin del mundo — Punta Arenas, Chile.</p>
-        </section>
+            <!-- Rareza visible -->
+            <div class="carta__rareza-badge">
+              <span class="rareza" id="rareza-texto">✦ Épica ✦</span>
+            </div>
 
-        <!-- ── Zona de acción ── -->
-        <footer class="carta__footer">
-          <button id="btn-activar" type="button" aria-describedby="contador">
-            ⚡ Activar habilidad
-          </button>
-          <span id="contador" class="contador" aria-live="polite"></span>
-        </footer>
-      </article>
-      <!-- /carta -->
+            <!-- Estadísticas -->
+            <section
+              class="carta__stats"
+              aria-label="Estadísticas de tecnologías"
+            >
+              <h2 class="carta__section-title">Estadísticas</h2>
+
+              <ul class="stats-lista" role="list">
+                <li class="stat-item">
+                  <span class="stat-nombre">HTML / CSS</span>
+                  <div
+                    class="stat-barra-wrap"
+                    role="progressbar"
+                    aria-valuenow="90"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="HTML CSS 90"
+                  >
+                    <div class="stat-barra" style="--valor: 90%"></div>
+                  </div>
+                  <span class="stat-valor">90</span>
+                </li>
+
+                <li class="stat-item">
+                  <span class="stat-nombre">JavaScript</span>
+                  <div
+                    class="stat-barra-wrap"
+                    role="progressbar"
+                    aria-valuenow="78"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="JavaScript 78"
+                  >
+                    <div class="stat-barra" style="--valor: 78%"></div>
+                  </div>
+                  <span class="stat-valor">78</span>
+                </li>
+
+                <li class="stat-item">
+                  <span class="stat-nombre">jQuery</span>
+                  <div
+                    class="stat-barra-wrap"
+                    role="progressbar"
+                    aria-valuenow="72"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="jQuery 72"
+                  >
+                    <div class="stat-barra" style="--valor: 72%"></div>
+                  </div>
+                  <span class="stat-valor">72</span>
+                </li>
+
+                <li class="stat-item">
+                  <span class="stat-nombre">Godot / GDScript</span>
+                  <div
+                    class="stat-barra-wrap"
+                    role="progressbar"
+                    aria-valuenow="65"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="Godot 65"
+                  >
+                    <div class="stat-barra" style="--valor: 65%"></div>
+                  </div>
+                  <span class="stat-valor">65</span>
+                </li>
+
+                <li class="stat-item">
+                  <span class="stat-nombre">Git / GitHub</span>
+                  <div
+                    class="stat-barra-wrap"
+                    role="progressbar"
+                    aria-valuenow="70"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="Git 70"
+                  >
+                    <div class="stat-barra" style="--valor: 70%"></div>
+                  </div>
+                  <span class="stat-valor">70</span>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Habilidad especial principal -->
+            <section class="carta__habilidad" aria-label="Habilidad especial">
+              <h2 class="carta__section-title">Habilidad especial</h2>
+              <div class="habilidad-card">
+                <span class="habilidad-icono" aria-hidden="true">⚡</span>
+                <div>
+                  <strong class="habilidad-nombre">Debug Dimensional</strong>
+                  <p class="habilidad-desc">
+                    Detecta bugs en código ajeno antes de que el compilador los
+                    vea.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Misión 11: hobby aleatorio con jQuery -->
+            <section
+              class="seccion seccion-extra"
+              id="hobby-box"
+              aria-label="Hobby al azar"
+            >
+              <strong>Hobby al azar</strong>
+              <p>
+                <span id="hobby-nombre"></span>
+                —
+                <span id="hobby-desc"></span>
+              </p>
+              <span id="hobby-horas" class="extra-meta"></span>
+            </section>
+
+            <!-- Misión 14: poder secreto aleatorio -->
+            <section class="seccion seccion-extra" aria-label="Poder activo">
+              <strong>Poder activo</strong>
+              <div id="poder">—</div>
+            </section>
+
+            <!-- Dato curioso corto -->
+            <section class="carta__dato" aria-label="Dato curioso">
+              <p>📍 Desarrolla desde el fin del mundo — Punta Arenas, Chile.</p>
+            </section>
+
+            <!-- Zona de acciones -->
+            <footer class="carta__footer">
+              <button
+                id="btn-activar"
+                type="button"
+                aria-describedby="contador"
+              >
+                ⚡ Activar habilidad
+              </button>
+              <span id="contador" class="contador" aria-live="polite"></span>
+              <div class="acciones-extra">
+                <button id="btn-hobby" type="button">Otro hobby</button>
+                <button class="btn-flip" type="button">Ver reverso</button>
+                <button id="btn-poder" type="button">Lanzar poder</button>
+              </div>
+            </footer>
+          </article>
+
+          <!-- =================================================
+             REVERSO DE LA CARTA
+             ================================================= -->
+          <article
+            class="carta reverso rareza-epica"
+            role="region"
+            aria-label="Carta reversa de desarrollador"
+          >
+            <header class="carta__header carta__header--reverso">
+              <div class="carta__clase">Documento clasificado</div>
+              <h2 class="carta__nombre">Reverso secreto</h2>
+              <span class="carta__subtitulo"
+                >Datos reservados del desarrollador</span
+              >
+            </header>
+
+            <section class="seccion seccion-extra">
+              <strong>Frase</strong>
+              <p>“Compila o muere intentándolo.”</p>
+            </section>
+
+            <section class="seccion seccion-extra">
+              <strong>Comida favorita</strong>
+              <p>Sushi sin pausa.</p>
+            </section>
+
+            <section class="seccion seccion-extra">
+              <strong>Soundtrack</strong>
+              <p>Lofi beats infinitos.</p>
+            </section>
+
+            <section class="seccion seccion-extra">
+              <strong>Dato curioso</strong>
+              <p>Aprendió a programar con un Tamagotchi.</p>
+            </section>
+
+            <section class="seccion seccion-extra seccion-reverso-final">
+              <strong>Estado</strong>
+              <p>
+                Acceso autorizado solo para quienes sobreviven al código
+                heredado.
+              </p>
+            </section>
+
+            <footer class="carta__footer carta__footer--reverso">
+              <button class="btn-flip" type="button">Volver al frente</button>
+            </footer>
+          </article>
+        </div>
+      </div>
     </main>
 
+    <!-- Script propio -->
     <script src="script.js"></script>
   </body>
 </html>

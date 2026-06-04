@@ -1,42 +1,43 @@
 /* =====================================================
    ESTILOS — Mi Carta Dev
+   Archivo completo actualizado con extras:
+   - Modo noche/día
+   - Flip 3D
+   - Hobby dinámico
+   - Poder secreto
+   - Hover mejorado
    ===================================================== */
 
-/* ── Tokens ── */
+/* =====================================================
+   VARIABLES GLOBALES
+   ===================================================== */
 :root {
-  /* Paleta oscura inspirada en TCG */
   --bg: #0d0d1a;
   --surface: #1a1a2e;
   --surface-2: #16213e;
   --border: rgba(255, 255, 255, 0.08);
 
-  /* Texto */
   --text: #e8e8f0;
   --text-muted: #8888aa;
   --text-faint: #4a4a6a;
 
-  /* Acento dorado (carta base) */
   --acento: #f4c430;
   --acento-glow: rgba(244, 196, 48, 0.35);
 
-  /* Rareza */
   --rareza-comun: #7a7a8a;
   --rareza-rara: #4a90e2;
   --rareza-epica: #9b59b6;
   --rareza-legendaria: #f4c430;
 
-  /* Tipografía */
   --font-display: "Orbitron", sans-serif;
   --font-body: "Exo 2", sans-serif;
 
-  /* Escala tipográfica */
   --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
   --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
   --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
   --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
 
-  /* Espaciado 4px */
   --sp-1: 0.25rem;
   --sp-2: 0.5rem;
   --sp-3: 0.75rem;
@@ -44,28 +45,22 @@
   --sp-5: 1.25rem;
   --sp-6: 1.5rem;
   --sp-8: 2rem;
-  --sp-10: 2.5rem;
-  --sp-12: 3rem;
 
-  /* Radio */
   --r-sm: 0.375rem;
   --r-md: 0.5rem;
   --r-lg: 0.75rem;
   --r-xl: 1.25rem;
   --r-2xl: 1.75rem;
 
-  /* Transición */
-  --trans: 200ms cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Sombras */
+  --trans: 220ms cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-carta: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
   --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.5);
-
-  /* Ancho carta */
-  --carta-w: 340px;
+  --carta-w: 360px;
 }
 
-/* ── Reset mínimo ── */
+/* =====================================================
+   RESET GENERAL
+   ===================================================== */
 *,
 *::before,
 *::after {
@@ -73,22 +68,34 @@
   margin: 0;
   padding: 0;
 }
+
 html {
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
 }
+
 body {
   min-height: 100dvh;
   font-family: var(--font-body);
   font-size: var(--text-base);
-  color: var(--text);
-  background: var(--bg);
+  color: #f4f1ec;
+  background: #1a1a2e;
   overflow-x: hidden;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
 }
+
+body:not(.modo-noche) {
+  background: #fdf6ec;
+  color: #2b2d42;
+}
+
 img {
   display: block;
   max-width: 100%;
 }
+
 button {
   cursor: pointer;
   font: inherit;
@@ -96,9 +103,11 @@ button {
   border: none;
   background: none;
 }
+
 ul[role="list"] {
   list-style: none;
 }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -108,7 +117,9 @@ ul[role="list"] {
   }
 }
 
-/* ── Fondo animado ── */
+/* =====================================================
+   FONDO VISUAL
+   ===================================================== */
 .bg-fx {
   position: fixed;
   inset: 0;
@@ -124,43 +135,118 @@ ul[role="list"] {
       ellipse 60% 80% at 80% 70%,
       rgba(74, 144, 226, 0.06) 0%,
       transparent 60%
-    ),
-    var(--bg);
+    );
 }
 
-/* ── Escenario: centra la carta ── */
+body:not(.modo-noche) .bg-fx {
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 20% 30%,
+      rgba(244, 196, 48, 0.12) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 80% at 80% 70%,
+      rgba(74, 144, 226, 0.1) 0%,
+      transparent 60%
+    );
+}
+
+/* =====================================================
+   CONTROLES EXTERNOS
+   ===================================================== */
+.panel-controles {
+  width: min(100%, 420px);
+  margin: 0 auto;
+  padding: var(--sp-3) var(--sp-3) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.panel-controles__texto {
+  font-size: var(--text-xs);
+  color: inherit;
+  opacity: 0.85;
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* =====================================================
+   ESCENARIO CENTRAL
+   ===================================================== */
 .escenario {
-  min-height: 100dvh;
+  min-height: calc(100dvh - 52px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--sp-8) var(--sp-4);
+  padding: var(--sp-3);
 }
 
-/* ═══════════════════════════════════════
+/* =====================================================
+   WRAPPER 3D PARA FLIP
+   ===================================================== */
+.carta-wrap {
+  width: min(var(--carta-w), calc(100vw - 1.5rem));
+  perspective: 1200px;
+}
+
+.carta-inner {
+  position: relative;
+  width: 100%;
+  height: min(690px, calc(100dvh - 5.5rem));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1),
+    box-shadow 0.3s ease;
+}
+
+.carta-inner.volteada {
+  transform: rotateY(180deg);
+}
+
+.carta-inner.brillo {
+  filter: drop-shadow(0 0 18px rgba(244, 196, 48, 0.55));
+}
+
+/* =====================================================
    CARTA BASE
-═══════════════════════════════════════ */
+   Las dos caras ocupan el mismo espacio
+   ===================================================== */
 .carta {
-  width: var(--carta-w);
-  max-width: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
   background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
   border: 2px solid var(--rareza-comun);
   border-radius: var(--r-2xl);
   box-shadow: var(--shadow-carta);
-  padding: var(--sp-5);
+  padding: var(--sp-4);
+
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
-  position: relative;
+  gap: var(--sp-3);
+
   transition:
     transform var(--trans),
     box-shadow var(--trans),
-    border-color var(--trans);
-  will-change: transform;
+    border-color var(--trans),
+    background var(--trans);
 }
 
-/* Hover: levanta la carta, cambia el color y hace brillar el borde */
-.carta:hover {
+.carta.reverso {
+  transform: rotateY(180deg);
+}
+
+/* Hover visual en la cara frontal */
+.frente:hover {
   transform: translateY(-8px) scale(1.015);
   background: linear-gradient(160deg, #23183f 0%, #1d2f57 100%);
   border-color: color-mix(in oklch, var(--borde-rareza) 85%, white 15%);
@@ -171,7 +257,7 @@ ul[role="list"] {
     0 0 56px color-mix(in oklch, var(--borde-rareza) 35%, transparent);
 }
 
-/* ── Rareza: color de borde ── */
+/* Rarezas */
 .carta.rareza-comun {
   --borde-rareza: var(--rareza-comun);
 }
@@ -195,28 +281,36 @@ ul[role="list"] {
     0 0 16px color-mix(in oklch, var(--borde-rareza) 40%, transparent);
 }
 
-/* Clase activa (jQuery la agrega) */
+/* Estado activo del poder principal */
 .carta.activa {
   animation: pulso 0.6s ease-out;
 }
+
 @keyframes pulso {
   0% {
     transform: scale(1);
   }
   40% {
-    transform: scale(1.04) translateY(-4px);
+    transform: scale(1.03) translateY(-4px);
   }
   100% {
-    transform: scale(1) translateY(-8px);
+    transform: scale(1);
   }
 }
 
-/* ── Cabecera ── */
+/* =====================================================
+   CABECERA
+   ===================================================== */
 .carta__header {
   text-align: center;
   border-bottom: 1px solid var(--border);
   padding-bottom: var(--sp-3);
 }
+
+.carta__header--reverso {
+  padding-bottom: var(--sp-2);
+}
+
 .carta__clase {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -225,13 +319,14 @@ ul[role="list"] {
   color: var(--acento);
   margin-bottom: var(--sp-1);
 }
+
 .carta__nombre {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: 800;
   line-height: 1.1;
-  color: var(--text);
 }
+
 .carta__subtitulo {
   display: block;
   font-size: var(--text-xs);
@@ -239,29 +334,30 @@ ul[role="list"] {
   margin-top: var(--sp-1);
 }
 
-/* ── Avatar ── */
+/* =====================================================
+   AVATAR
+   ===================================================== */
 .carta__avatar {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .carta__avatar-img {
-  width: 140px;
-  height: 140px;
+  width: clamp(84px, 20vw, 118px);
+  height: clamp(84px, 20vw, 118px);
   border-radius: var(--r-xl);
   border: 2px solid var(--border);
   background: var(--surface-2);
 }
-.carta__avatar-emoji {
-  font-size: 6rem;
-  line-height: 1;
-  text-align: center;
-}
 
-/* ── Badge de rareza ── */
+/* =====================================================
+   BADGES / TITULOS / TEXTOS
+   ===================================================== */
 .carta__rareza-badge {
   text-align: center;
 }
+
 .rareza {
   display: inline-block;
   font-family: var(--font-display);
@@ -277,7 +373,6 @@ ul[role="list"] {
     border-color var(--trans);
 }
 
-/* ── Títulos de sección ── */
 .carta__section-title {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -285,21 +380,25 @@ ul[role="list"] {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: var(--sp-3);
+  margin-bottom: var(--sp-2);
 }
 
-/* ── Estadísticas ── */
+/* =====================================================
+   ESTADÍSTICAS
+   ===================================================== */
 .stats-lista {
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
 }
+
 .stat-item {
   display: grid;
-  grid-template-columns: 6rem 1fr 2rem;
+  grid-template-columns: 5.5rem 1fr 2rem;
   align-items: center;
   gap: var(--sp-2);
 }
+
 .stat-nombre {
   font-size: var(--text-xs);
   color: var(--text-muted);
@@ -307,12 +406,14 @@ ul[role="list"] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .stat-barra-wrap {
   height: 6px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: var(--r-sm);
   overflow: hidden;
 }
+
 .stat-barra {
   height: 100%;
   width: var(--valor);
@@ -328,6 +429,7 @@ ul[role="list"] {
   border-radius: var(--r-sm);
   transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .stat-valor {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -335,21 +437,29 @@ ul[role="list"] {
   text-align: right;
 }
 
-/* ── Habilidad especial ── */
+/* =====================================================
+   BLOQUE DE HABILIDAD / SECCIONES EXTRA
+   ===================================================== */
+.habilidad-card,
+.seccion {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+
 .habilidad-card {
   display: flex;
   gap: var(--sp-3);
   align-items: flex-start;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
   padding: var(--sp-3) var(--sp-4);
 }
+
 .habilidad-icono {
   font-size: 1.5rem;
   flex-shrink: 0;
   margin-top: 2px;
 }
+
 .habilidad-nombre {
   display: block;
   font-family: var(--font-display);
@@ -357,54 +467,129 @@ ul[role="list"] {
   color: var(--acento);
   margin-bottom: var(--sp-1);
 }
-.habilidad-desc {
+
+.habilidad-desc,
+.seccion p,
+.seccion div,
+.extra-meta {
   font-size: var(--text-xs);
   color: var(--text-muted);
-  line-height: 1.5;
-  max-width: none;
+  line-height: 1.45;
 }
 
-/* ── Dato curioso ── */
+.seccion {
+  padding: var(--sp-3);
+}
+
+.seccion strong {
+  display: block;
+  margin-bottom: var(--sp-1);
+  color: var(--acento);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+}
+
+.seccion-extra {
+  flex-shrink: 0;
+}
+
+.extra-meta {
+  display: inline-block;
+  margin-top: var(--sp-1);
+}
+
+/* =====================================================
+   DATO CURIOSO Y FOOTER
+   ===================================================== */
 .carta__dato {
   font-size: var(--text-xs);
   color: var(--text-muted);
   text-align: center;
   border-top: 1px solid var(--border);
-  padding-top: var(--sp-3);
-  line-height: 1.5;
+  padding-top: var(--sp-2);
+  line-height: 1.4;
 }
 
-/* ── Footer / acción ── */
 .carta__footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--sp-2);
+  margin-top: auto;
 }
-#btn-activar {
+
+.carta__footer--reverso {
+  justify-content: flex-end;
+}
+
+.acciones-extra {
   width: 100%;
-  padding: var(--sp-3) var(--sp-4);
-  background: var(--acento);
-  color: #0d0d1a;
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-2);
+}
+
+/* =====================================================
+   BOTONES
+   ===================================================== */
+#btn-activar,
+#btn-hobby,
+#btn-poder,
+#btn-modo,
+.btn-flip {
+  min-height: 42px;
+  padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-lg);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
   transition:
     background var(--trans),
     transform var(--trans),
-    box-shadow var(--trans);
-  min-height: 44px;
+    box-shadow var(--trans),
+    color var(--trans);
 }
+
+#btn-activar,
+#btn-hobby,
+#btn-poder,
+.btn-flip {
+  width: 100%;
+}
+
+#btn-activar {
+  background: var(--acento);
+  color: #0d0d1a;
+}
+
+#btn-hobby,
+#btn-poder,
+.btn-flip,
+#btn-modo {
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+  border: 1px solid var(--border);
+}
+
+#btn-activar:hover,
+#btn-hobby:hover,
+#btn-poder:hover,
+#btn-modo:hover,
+.btn-flip:hover {
+  transform: translateY(-2px);
+}
+
 #btn-activar:hover {
   background: #ffd44a;
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px var(--acento-glow);
 }
-#btn-activar:active {
-  transform: translateY(0);
-  box-shadow: none;
+
+#btn-hobby:hover,
+#btn-poder:hover,
+#btn-modo:hover,
+.btn-flip:hover {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .contador {
@@ -414,9 +599,124 @@ ul[role="list"] {
   min-height: 1.2em;
 }
 
-/* ── Focus visible ── */
+/* =====================================================
+   REVERSO
+   ===================================================== */
+.reverso {
+  justify-content: flex-start;
+}
+
+.seccion-reverso-final {
+  margin-top: auto;
+}
+
+/* =====================================================
+   MODO DÍA
+   Ajustes visuales cuando body NO tiene .modo-noche
+   ===================================================== */
+body:not(.modo-noche) .carta {
+  background: linear-gradient(160deg, #fffaf1 0%, #f2ebdd 100%);
+  color: #2b2d42;
+  box-shadow: 0 8px 28px rgba(43, 45, 66, 0.15);
+}
+
+body:not(.modo-noche) .carta__subtitulo,
+body:not(.modo-noche) .stat-nombre,
+body:not(.modo-noche) .habilidad-desc,
+body:not(.modo-noche) .carta__dato,
+body:not(.modo-noche) .contador,
+body:not(.modo-noche) .seccion p,
+body:not(.modo-noche) .seccion div,
+body:not(.modo-noche) .extra-meta {
+  color: #555b73;
+}
+
+body.modo-noche .carta {
+  box-shadow:
+    0 0 25px rgba(244, 196, 48, 0.18),
+    var(--shadow-carta);
+}
+
+/* =====================================================
+   ACCESIBILIDAD
+   ===================================================== */
 :focus-visible {
   outline: 2px solid var(--acento);
   outline-offset: 3px;
   border-radius: var(--r-sm);
+}
+
+/* =====================================================
+   RESPONSIVE
+   Compacta la carta para pantallas más pequeñas
+   ===================================================== */
+@media (max-height: 820px), (max-width: 420px) {
+  .panel-controles {
+    padding: var(--sp-2) var(--sp-3) 0;
+  }
+
+  .escenario {
+    padding: var(--sp-2);
+  }
+
+  .carta-inner {
+    height: min(650px, calc(100dvh - 4.6rem));
+  }
+
+  .carta {
+    padding: var(--sp-3);
+    gap: var(--sp-2);
+    border-radius: var(--r-xl);
+  }
+
+  .carta__header {
+    padding-bottom: var(--sp-2);
+  }
+
+  .carta__nombre {
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+  }
+
+  .carta__subtitulo,
+  .carta__clase,
+  .rareza,
+  .carta__section-title,
+  .stat-nombre,
+  .stat-valor,
+  .habilidad-desc,
+  .carta__dato,
+  .contador,
+  .seccion p,
+  .seccion div,
+  .extra-meta,
+  .panel-controles__texto {
+    font-size: 0.72rem;
+  }
+
+  .habilidad-card,
+  .seccion {
+    padding: var(--sp-2) var(--sp-3);
+  }
+
+  .habilidad-icono {
+    font-size: 1.1rem;
+  }
+
+  .stat-barra-wrap {
+    height: 5px;
+  }
+
+  .acciones-extra {
+    grid-template-columns: 1fr;
+  }
+
+  #btn-activar,
+  #btn-hobby,
+  #btn-poder,
+  #btn-modo,
+  .btn-flip {
+    min-height: 38px;
+    font-size: 0.72rem;
+    padding: var(--sp-2);
+  }
 }

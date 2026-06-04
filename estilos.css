@@ -183,7 +183,7 @@ body:not(.modo-noche) .bg-fx {
   align-items: flex-start;
   justify-content: center;
   padding: var(--sp-3);
-  padding-bottom: var(--sp-8);
+  padding-bottom: calc(var(--sp-8) + var(--sp-4));
 }
 
 /* =====================================================
@@ -197,8 +197,8 @@ body:not(.modo-noche) .bg-fx {
 .carta-inner {
   position: relative;
   width: 100%;
-  min-height: 760px;
-  height: 760px;
+  min-height: 1020px;
+  height: auto;
   transform-style: preserve-3d;
   transition:
     transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1),
@@ -221,9 +221,9 @@ body:not(.modo-noche) .bg-fx {
   position: absolute;
   inset: 0;
   width: 100%;
-  min-height: 760px;
-  height: 100%;
-  overflow: hidden;
+  min-height: 1020px;
+  height: auto;
+  overflow: visible;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 
@@ -532,6 +532,7 @@ body:not(.modo-noche) .bg-fx {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--sp-2);
+  margin-top: var(--sp-1);
 }
 
 /* =====================================================
@@ -675,13 +676,13 @@ body.modo-noche .carta {
   }
 
   .carta-inner {
-    min-height: 730px;
-    height: 730px;
+    min-height: 1120px;
+    height: auto;
   }
 
   .carta {
-    min-height: 730px;
-    height: 100%;
+    min-height: 1120px;
+    height: auto;
   }
 
   .carta {
@@ -697,4 +698,49 @@ body.modo-noche .carta {
   .acciones-extra {
     grid-template-columns: 1fr;
   }
+}
+
+/* =====================================================
+   MODO DÍA — MEJORAS DE CONTRASTE Y SEPARACIÓN
+   Mejora botones secundarios y reverso en tema claro
+   ===================================================== */
+body:not(.modo-noche) #btn-hobby,
+body:not(.modo-noche) #btn-poder,
+body:not(.modo-noche) .btn-flip,
+body:not(.modo-noche) #btn-modo {
+  background: rgba(43, 45, 66, 0.06);
+  color: #2b2d42;
+  border: 1px solid rgba(43, 45, 66, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+body:not(.modo-noche) #btn-hobby:hover,
+body:not(.modo-noche) #btn-poder:hover,
+body:not(.modo-noche) .btn-flip:hover,
+body:not(.modo-noche) #btn-modo:hover {
+  background: rgba(43, 45, 66, 0.12);
+  border-color: rgba(43, 45, 66, 0.28);
+}
+
+body:not(.modo-noche) .seccion,
+body:not(.modo-noche) .habilidad-card {
+  background: rgba(43, 45, 66, 0.03);
+  border: 1px solid rgba(43, 45, 66, 0.1);
+}
+
+body:not(.modo-noche) .carta.reverso {
+  background: linear-gradient(160deg, #fffaf1 0%, #ece4d4 100%);
+}
+
+body:not(.modo-noche) .reverso .seccion {
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(43, 45, 66, 0.12);
+}
+
+body:not(.modo-noche) .reverso .carta__header {
+  border-bottom: 1px solid rgba(43, 45, 66, 0.12);
+}
+
+body:not(.modo-noche) .acciones-extra {
+  gap: var(--sp-3);
 }

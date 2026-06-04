@@ -1,47 +1,42 @@
 /* =====================================================
    ESTILOS — Mi Carta Dev
-   Archivo encargado del diseño visual de la carta.
    ===================================================== */
 
-/* =====================================================
-   VARIABLES GLOBALES / TOKENS
-   Aquí definimos colores, tipografías, medidas y sombras
-   para reutilizarlas en todo el CSS.
-   ===================================================== */
+/* ── Tokens ── */
 :root {
-  /* Paleta base oscura */
+  /* Paleta oscura inspirada en TCG */
   --bg: #0d0d1a;
   --surface: #1a1a2e;
   --surface-2: #16213e;
   --border: rgba(255, 255, 255, 0.08);
 
-  /* Colores de texto */
+  /* Texto */
   --text: #e8e8f0;
   --text-muted: #8888aa;
   --text-faint: #4a4a6a;
 
-  /* Acento principal */
+  /* Acento dorado (carta base) */
   --acento: #f4c430;
   --acento-glow: rgba(244, 196, 48, 0.35);
 
-  /* Colores según rareza */
+  /* Rareza */
   --rareza-comun: #7a7a8a;
   --rareza-rara: #4a90e2;
   --rareza-epica: #9b59b6;
   --rareza-legendaria: #f4c430;
 
-  /* Tipografías */
+  /* Tipografía */
   --font-display: "Orbitron", sans-serif;
   --font-body: "Exo 2", sans-serif;
 
-  /* Escala tipográfica responsiva */
+  /* Escala tipográfica */
   --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
   --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
   --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
   --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
 
-  /* Sistema de espaciado */
+  /* Espaciado 4px */
   --sp-1: 0.25rem;
   --sp-2: 0.5rem;
   --sp-3: 0.75rem;
@@ -52,28 +47,25 @@
   --sp-10: 2.5rem;
   --sp-12: 3rem;
 
-  /* Bordes redondeados */
+  /* Radio */
   --r-sm: 0.375rem;
   --r-md: 0.5rem;
   --r-lg: 0.75rem;
   --r-xl: 1.25rem;
   --r-2xl: 1.75rem;
 
-  /* Transición suave */
+  /* Transición */
   --trans: 200ms cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Sombras */
   --shadow-carta: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
   --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.5);
 
-  /* Ancho fijo de la carta */
+  /* Ancho carta */
   --carta-w: 340px;
 }
 
-/* =====================================================
-   RESET BÁSICO
-   Limpia estilos por defecto del navegador.
-   ===================================================== */
+/* ── Reset mínimo ── */
 *,
 *::before,
 *::after {
@@ -81,12 +73,10 @@
   margin: 0;
   padding: 0;
 }
-
 html {
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
 }
-
 body {
   min-height: 100dvh;
   font-family: var(--font-body);
@@ -95,12 +85,10 @@ body {
   background: var(--bg);
   overflow-x: hidden;
 }
-
 img {
   display: block;
   max-width: 100%;
 }
-
 button {
   cursor: pointer;
   font: inherit;
@@ -108,12 +96,9 @@ button {
   border: none;
   background: none;
 }
-
 ul[role="list"] {
   list-style: none;
 }
-
-/* Reduce animaciones si el usuario lo prefiere */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -123,10 +108,7 @@ ul[role="list"] {
   }
 }
 
-/* =====================================================
-   FONDO DECORATIVO
-   Un fondo con gradientes suaves para dar ambiente.
-   ===================================================== */
+/* ── Fondo animado ── */
 .bg-fx {
   position: fixed;
   inset: 0;
@@ -146,10 +128,7 @@ ul[role="list"] {
     var(--bg);
 }
 
-/* =====================================================
-   ESCENARIO
-   Centra la carta vertical y horizontalmente.
-   ===================================================== */
+/* ── Escenario: centra la carta ── */
 .escenario {
   min-height: 100dvh;
   display: flex;
@@ -158,10 +137,9 @@ ul[role="list"] {
   padding: var(--sp-8) var(--sp-4);
 }
 
-/* =====================================================
+/* ═══════════════════════════════════════
    CARTA BASE
-   Contenedor principal con fondo, borde, radio y sombra.
-   ===================================================== */
+═══════════════════════════════════════ */
 .carta {
   width: var(--carta-w);
   max-width: 100%;
@@ -181,16 +159,19 @@ ul[role="list"] {
   will-change: transform;
 }
 
-/* Efecto hover: la carta se eleva */
+/* Hover: levanta la carta, cambia el color y hace brillar el borde */
 .carta:hover {
   transform: translateY(-8px) scale(1.015);
-  box-shadow: var(--shadow-hover);
+  background: linear-gradient(160deg, #23183f 0%, #1d2f57 100%);
+  border-color: color-mix(in oklch, var(--borde-rareza) 85%, white 15%);
+  box-shadow:
+    var(--shadow-hover),
+    0 0 12px color-mix(in oklch, var(--borde-rareza) 65%, transparent),
+    0 0 32px color-mix(in oklch, var(--borde-rareza) 55%, transparent),
+    0 0 56px color-mix(in oklch, var(--borde-rareza) 35%, transparent);
 }
 
-/* =====================================================
-   RAREZAS
-   Cada clase asigna un color distinto al borde/glow.
-   ===================================================== */
+/* ── Rareza: color de borde ── */
 .carta.rareza-comun {
   --borde-rareza: var(--rareza-comun);
 }
@@ -204,7 +185,6 @@ ul[role="list"] {
   --borde-rareza: var(--rareza-legendaria);
 }
 
-/* Aplica el color definido arriba */
 .carta.rareza-comun,
 .carta.rareza-rara,
 .carta.rareza-epica,
@@ -215,16 +195,10 @@ ul[role="list"] {
     0 0 16px color-mix(in oklch, var(--borde-rareza) 40%, transparent);
 }
 
-/* =====================================================
-   ESTADO ACTIVO
-   Esta clase se agrega desde jQuery cuando presionas
-   el botón "Activar habilidad".
-   ===================================================== */
+/* Clase activa (jQuery la agrega) */
 .carta.activa {
   animation: pulso 0.6s ease-out;
 }
-
-/* Animación de activación */
 @keyframes pulso {
   0% {
     transform: scale(1);
@@ -237,15 +211,12 @@ ul[role="list"] {
   }
 }
 
-/* =====================================================
-   CABECERA
-   ===================================================== */
+/* ── Cabecera ── */
 .carta__header {
   text-align: center;
   border-bottom: 1px solid var(--border);
   padding-bottom: var(--sp-3);
 }
-
 .carta__clase {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -254,7 +225,6 @@ ul[role="list"] {
   color: var(--acento);
   margin-bottom: var(--sp-1);
 }
-
 .carta__nombre {
   font-family: var(--font-display);
   font-size: var(--text-xl);
@@ -262,7 +232,6 @@ ul[role="list"] {
   line-height: 1.1;
   color: var(--text);
 }
-
 .carta__subtitulo {
   display: block;
   font-size: var(--text-xs);
@@ -270,15 +239,12 @@ ul[role="list"] {
   margin-top: var(--sp-1);
 }
 
-/* =====================================================
-   AVATAR
-   ===================================================== */
+/* ── Avatar ── */
 .carta__avatar {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .carta__avatar-img {
   width: 140px;
   height: 140px;
@@ -286,21 +252,16 @@ ul[role="list"] {
   border: 2px solid var(--border);
   background: var(--surface-2);
 }
-
-/* Alternativa si usas emoji en vez de imagen */
 .carta__avatar-emoji {
   font-size: 6rem;
   line-height: 1;
   text-align: center;
 }
 
-/* =====================================================
-   BADGE DE RAREZA
-   ===================================================== */
+/* ── Badge de rareza ── */
 .carta__rareza-badge {
   text-align: center;
 }
-
 .rareza {
   display: inline-block;
   font-family: var(--font-display);
@@ -316,9 +277,7 @@ ul[role="list"] {
     border-color var(--trans);
 }
 
-/* =====================================================
-   TÍTULOS DE SECCIÓN
-   ===================================================== */
+/* ── Títulos de sección ── */
 .carta__section-title {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -329,22 +288,18 @@ ul[role="list"] {
   margin-bottom: var(--sp-3);
 }
 
-/* =====================================================
-   ESTADÍSTICAS
-   ===================================================== */
+/* ── Estadísticas ── */
 .stats-lista {
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
 }
-
 .stat-item {
   display: grid;
   grid-template-columns: 6rem 1fr 2rem;
   align-items: center;
   gap: var(--sp-2);
 }
-
 .stat-nombre {
   font-size: var(--text-xs);
   color: var(--text-muted);
@@ -352,16 +307,12 @@ ul[role="list"] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/* Contenedor gris de la barra */
 .stat-barra-wrap {
   height: 6px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: var(--r-sm);
   overflow: hidden;
 }
-
-/* Barra coloreada */
 .stat-barra {
   height: 100%;
   width: var(--valor);
@@ -377,7 +328,6 @@ ul[role="list"] {
   border-radius: var(--r-sm);
   transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .stat-valor {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -385,9 +335,7 @@ ul[role="list"] {
   text-align: right;
 }
 
-/* =====================================================
-   HABILIDAD ESPECIAL
-   ===================================================== */
+/* ── Habilidad especial ── */
 .habilidad-card {
   display: flex;
   gap: var(--sp-3);
@@ -397,13 +345,11 @@ ul[role="list"] {
   border-radius: var(--r-lg);
   padding: var(--sp-3) var(--sp-4);
 }
-
 .habilidad-icono {
   font-size: 1.5rem;
   flex-shrink: 0;
   margin-top: 2px;
 }
-
 .habilidad-nombre {
   display: block;
   font-family: var(--font-display);
@@ -411,7 +357,6 @@ ul[role="list"] {
   color: var(--acento);
   margin-bottom: var(--sp-1);
 }
-
 .habilidad-desc {
   font-size: var(--text-xs);
   color: var(--text-muted);
@@ -419,9 +364,7 @@ ul[role="list"] {
   max-width: none;
 }
 
-/* =====================================================
-   DATO CURIOSO
-   ===================================================== */
+/* ── Dato curioso ── */
 .carta__dato {
   font-size: var(--text-xs);
   color: var(--text-muted);
@@ -431,16 +374,13 @@ ul[role="list"] {
   line-height: 1.5;
 }
 
-/* =====================================================
-   FOOTER / BOTÓN / CONTADOR
-   ===================================================== */
+/* ── Footer / acción ── */
 .carta__footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--sp-2);
 }
-
 #btn-activar {
   width: 100%;
   padding: var(--sp-3) var(--sp-4);
@@ -457,21 +397,16 @@ ul[role="list"] {
     box-shadow var(--trans);
   min-height: 44px;
 }
-
-/* Hover del botón */
 #btn-activar:hover {
   background: #ffd44a;
   transform: translateY(-2px);
   box-shadow: 0 4px 16px var(--acento-glow);
 }
-
-/* Estado al presionar */
 #btn-activar:active {
   transform: translateY(0);
   box-shadow: none;
 }
 
-/* Texto donde se muestra el contador */
 .contador {
   font-family: var(--font-display);
   font-size: var(--text-xs);
@@ -479,9 +414,7 @@ ul[role="list"] {
   min-height: 1.2em;
 }
 
-/* =====================================================
-   ACCESIBILIDAD: FOCUS VISIBLE
-   ===================================================== */
+/* ── Focus visible ── */
 :focus-visible {
   outline: 2px solid var(--acento);
   outline-offset: 3px;

@@ -1,28 +1,11 @@
 <!doctype html>
-<!--
-  Define el documento como HTML5.
--->
 <html lang="es" data-theme="dark">
   <head>
-    <!--
-    Configuración básica del documento:
-    - charset UTF-8 para soportar tildes, ñ, símbolos, etc.
-    - viewport para que se vea bien en celulares.
-  -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!--
-    Título de la pestaña del navegador.
-    Puedes cambiar "Zakkdruzer" por tu nombre de batalla.
-  -->
     <title>Zakkdruzer — Carta Dev</title>
 
-    <!--
-    Fuentes externas:
-    - Orbitron: para títulos, da look futurista / carta de videojuego.
-    - Exo 2: para textos generales.
-  -->
+    <!-- Fuente: Orbitron (display) + Exo 2 (cuerpo) — tono sci-fi / TCG -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -30,78 +13,36 @@
       rel="stylesheet"
     />
 
-    <!--
-    Hoja de estilos principal del proyecto.
-  -->
     <link rel="stylesheet" href="estilos.css" />
 
-    <!--
-    jQuery desde CDN.
-    La tarea pide usar un toque de JavaScript con jQuery.
-  -->
+    <!-- jQuery desde CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
   <body>
-    <!--
-    Capa decorativa de fondo.
-    Solo cumple función visual, por eso lleva aria-hidden="true".
-  -->
+    <!-- Fondo de partículas / ambiente -->
     <div class="bg-fx" aria-hidden="true"></div>
 
-    <!--
-    Contenedor principal de la página.
-    main representa el contenido principal del documento.
-  -->
+    <!-- =========================================================
+       CARTA
+  ========================================================== -->
     <main class="escenario">
-      <!--
-      La carta completa.
-      - class="carta" aplica el estilo base.
-      - rareza-epica define el color del borde y glow.
-      Puedes cambiar por:
-        rareza-comun
-        rareza-rara
-        rareza-epica
-        rareza-legendaria
-    -->
       <article
         class="carta rareza-epica"
         role="region"
         aria-label="Carta de desarrollador"
       >
-        <!-- =========================
-           CABECERA DE LA CARTA
-      ========================== -->
+        <!-- ── Cabecera ── -->
         <header class="carta__header">
-          <!--
-          Clase del personaje/desarrollador.
-          Ejemplos: Frontend, Backend, Fullstack.
-        -->
-          <div class="carta__clase">Fullstack</div>
-
-          <!--
-          Nombre principal o "nombre de batalla".
-        -->
+          <div class="carta__clase" id="clase-dev">Front-end</div>
           <h1 class="carta__nombre">Zakkdruzer</h1>
-
-          <!--
-          Subtítulo opcional con una descripción corta.
-        -->
           <span class="carta__subtitulo">Web Dev · Game Crafter</span>
         </header>
 
-        <!-- =========================
-           AVATAR / IMAGEN
-      ========================== -->
+        <!-- ── Avatar ── -->
         <div class="carta__avatar" aria-label="Avatar del desarrollador">
-          <!--
-          Opción A: avatar generado con DiceBear.
-          Puedes cambiar el seed para alterar el personaje.
-          Ejemplo:
-          seed=Zakkdruzer
-          seed=FrontendMaster
-          seed=TuNombre
-        -->
+          <!-- Opción A: DiceBear avatar SVG (sin JS necesario) -->
           <img
+            id="avatar-dev"
             src="https://api.dicebear.com/7.x/bottts/svg?seed=Zakkdruzer&backgroundColor=1a1a2e"
             alt="Avatar de Zakkdruzer"
             width="160"
@@ -109,47 +50,22 @@
             loading="eager"
             class="carta__avatar-img"
           />
-
-          <!--
-          Opción B: usar un emoji grande en vez de imagen.
-          Si quieres usar esto, elimina o comenta la etiqueta <img>
-          y descomenta el div de abajo.
-
-          <div class="carta__avatar-emoji" aria-hidden="true">🤖</div>
+          <!-- Opción B (comentada): emoji gigante
+        <div class="carta__avatar-emoji" aria-hidden="true">🤖</div>
         --></div>
 
-        <!-- =========================
-           RAREZA
-      ========================== -->
+        <!-- ── Rareza ── -->
         <div class="carta__rareza-badge">
-          <!--
-          Este texto cambia dinámicamente con jQuery al pasar el mouse.
-          Por eso tiene id="rareza-texto".
-        -->
           <span class="rareza" id="rareza-texto">✦ Épica ✦</span>
         </div>
 
-        <!-- =========================
-           ESTADÍSTICAS
-      ========================== -->
+        <!-- ── Estadísticas ── -->
         <section class="carta__stats" aria-label="Estadísticas de tecnologías">
           <h2 class="carta__section-title">Estadísticas</h2>
 
-          <!--
-          Lista de estadísticas.
-          Cada item incluye:
-          - nombre de tecnología
-          - barra visual de progreso
-          - valor numérico
-        -->
           <ul class="stats-lista" role="list">
             <li class="stat-item">
               <span class="stat-nombre">HTML / CSS</span>
-
-              <!--
-              Barra accesible:
-              aria-valuenow indica el valor real.
-            -->
               <div
                 class="stat-barra-wrap"
                 role="progressbar"
@@ -158,12 +74,8 @@
                 aria-valuemax="100"
                 aria-label="HTML CSS 90"
               >
-                <!--
-                --valor controla el ancho visual de la barra.
-              -->
                 <div class="stat-barra" style="--valor: 90%"></div>
               </div>
-
               <span class="stat-valor">90</span>
             </li>
 
@@ -229,27 +141,13 @@
           </ul>
         </section>
 
-        <!-- =========================
-           HABILIDAD ESPECIAL
-      ========================== -->
+        <!-- ── Habilidad especial ── -->
         <section class="carta__habilidad" aria-label="Habilidad especial">
           <h2 class="carta__section-title">Habilidad especial</h2>
-
           <div class="habilidad-card">
-            <!--
-            Ícono decorativo para la habilidad.
-          -->
             <span class="habilidad-icono" aria-hidden="true">⚡</span>
-
             <div>
-              <!--
-              Nombre creativo de la habilidad.
-            -->
               <strong class="habilidad-nombre">Debug Dimensional</strong>
-
-              <!--
-              Breve descripción, idealmente una línea.
-            -->
               <p class="habilidad-desc">
                 Detecta bugs en código ajeno antes de que el compilador los vea.
               </p>
@@ -257,38 +155,22 @@
           </div>
         </section>
 
-        <!-- =========================
-           DATO CURIOSO
-      ========================== -->
+        <!-- ── Dato curioso ── -->
         <section class="carta__dato" aria-label="Dato curioso">
           <p>📍 Desarrolla desde el fin del mundo — Punta Arenas, Chile.</p>
         </section>
 
-        <!-- =========================
-           ZONA DE ACCIÓN
-      ========================== -->
+        <!-- ── Zona de acción ── -->
         <footer class="carta__footer">
-          <!--
-          Botón principal.
-          El id se usa en script.js para detectar el click.
-        -->
           <button id="btn-activar" type="button" aria-describedby="contador">
             ⚡ Activar habilidad
           </button>
-
-          <!--
-          Aquí se mostrará el contador de veces activada.
-          aria-live permite que cambios dinámicos sean accesibles.
-        -->
           <span id="contador" class="contador" aria-live="polite"></span>
         </footer>
       </article>
+      <!-- /carta -->
     </main>
 
-    <!--
-    Tu archivo JavaScript propio.
-    Va al final del body para asegurar que el HTML ya cargó.
-  -->
     <script src="script.js"></script>
   </body>
 </html>

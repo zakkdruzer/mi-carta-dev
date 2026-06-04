@@ -100,7 +100,7 @@ $(document).ready(function () {
     "Doble café gratis",
     "Visión de bug instantánea",
     "Compilar sin errores al primer intento",
-    "Wi‑Fi infinito",
+    "Wi-Fi infinito",
     "Stack Overflow telepático",
   ];
 

@@ -180,9 +180,10 @@ body:not(.modo-noche) .bg-fx {
 .escenario {
   min-height: calc(100dvh - 52px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: var(--sp-3);
+  padding-bottom: var(--sp-8);
 }
 
 /* =====================================================
@@ -196,7 +197,8 @@ body:not(.modo-noche) .bg-fx {
 .carta-inner {
   position: relative;
   width: 100%;
-  height: min(690px, calc(100dvh - 5.5rem));
+  min-height: 760px;
+  height: 760px;
   transform-style: preserve-3d;
   transition:
     transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1),
@@ -219,6 +221,7 @@ body:not(.modo-noche) .bg-fx {
   position: absolute;
   inset: 0;
   width: 100%;
+  min-height: 760px;
   height: 100%;
   overflow: hidden;
   backface-visibility: hidden;
@@ -228,7 +231,7 @@ body:not(.modo-noche) .bg-fx {
   border: 2px solid var(--rareza-comun);
   border-radius: var(--r-2xl);
   box-shadow: var(--shadow-carta);
-  padding: var(--sp-4);
+  padding: var(--sp-5);
 
   display: flex;
   flex-direction: column;
@@ -517,6 +520,7 @@ body:not(.modo-noche) .bg-fx {
   align-items: center;
   gap: var(--sp-2);
   margin-top: auto;
+  padding-top: var(--sp-2);
 }
 
 .carta__footer--reverso {
@@ -610,6 +614,13 @@ body:not(.modo-noche) .bg-fx {
   margin-top: auto;
 }
 
+.carta__dato,
+.carta__footer,
+.acciones-extra {
+  position: relative;
+  z-index: 1;
+}
+
 /* =====================================================
    MODO DÍA
    Ajustes visuales cuando body NO tiene .modo-noche
@@ -648,9 +659,9 @@ body.modo-noche .carta {
 
 /* =====================================================
    RESPONSIVE
-   Compacta la carta para pantallas más pequeñas
+   Ajustes suaves sin cortar contenido
    ===================================================== */
-@media (max-height: 820px), (max-width: 420px) {
+@media (max-width: 420px) {
   .panel-controles {
     padding: var(--sp-2) var(--sp-3) 0;
   }
@@ -659,64 +670,31 @@ body.modo-noche .carta {
     padding: var(--sp-2);
   }
 
+  .carta-wrap {
+    width: min(100%, calc(100vw - 1rem));
+  }
+
   .carta-inner {
-    height: min(650px, calc(100dvh - 4.6rem));
+    min-height: 730px;
+    height: 730px;
   }
 
   .carta {
-    padding: var(--sp-3);
+    min-height: 730px;
+    height: 100%;
+  }
+
+  .carta {
+    padding: var(--sp-4);
     gap: var(--sp-2);
     border-radius: var(--r-xl);
   }
 
-  .carta__header {
-    padding-bottom: var(--sp-2);
-  }
-
   .carta__nombre {
-    font-size: clamp(1.2rem, 4vw, 1.7rem);
-  }
-
-  .carta__subtitulo,
-  .carta__clase,
-  .rareza,
-  .carta__section-title,
-  .stat-nombre,
-  .stat-valor,
-  .habilidad-desc,
-  .carta__dato,
-  .contador,
-  .seccion p,
-  .seccion div,
-  .extra-meta,
-  .panel-controles__texto {
-    font-size: 0.72rem;
-  }
-
-  .habilidad-card,
-  .seccion {
-    padding: var(--sp-2) var(--sp-3);
-  }
-
-  .habilidad-icono {
-    font-size: 1.1rem;
-  }
-
-  .stat-barra-wrap {
-    height: 5px;
+    font-size: clamp(1.2rem, 5vw, 1.7rem);
   }
 
   .acciones-extra {
     grid-template-columns: 1fr;
-  }
-
-  #btn-activar,
-  #btn-hobby,
-  #btn-poder,
-  #btn-modo,
-  .btn-flip {
-    min-height: 38px;
-    font-size: 0.72rem;
-    padding: var(--sp-2);
   }
 }

@@ -1,78 +1,63 @@
 /* =====================================================
    script.js — Interactividad jQuery
+   Aquí vive el comportamiento dinámico de la carta.
    ===================================================== */
 
 $(document).ready(function () {
+  /*
+    Espera a que el DOM esté cargado antes de ejecutar
+    cualquier interacción.
+  */
+
+  // ====================================================
+  // 1. CONTADOR DE ACTIVACIONES
+  // Variable que guarda cuántas veces se ha activado
+  // la habilidad.
+  // ====================================================
   let veces = 0;
 
-  const avatarBase =
-    "https://api.dicebear.com/7.x/bottts/svg?seed=Zakkdruzer&backgroundColor=1a1a2e";
-
-  const avatarHover =
-    "https://api.dicebear.com/9.x/bottts/svg?seed=Zakkdruzer-X&backgroundType=gradientLinear&backgroundColor=1e88e5,5e35b1&eyes=robocop,glow&face=square02,square04&mouth=grill01,diagram&sides=round,square&top=glowingBulb01,radar&texture=circuits,grunge01&scale=95&radius=20";
-
-  // Guarda el texto original de cada estadística para restaurarlo luego
-  const statsOriginales = [];
-
-  $(".stat-item").each(function () {
-    const valorTexto = $(this).find(".stat-valor").text();
-    const valorNumero = parseInt(valorTexto, 10) || 0;
-
-    statsOriginales.push({
-      item: $(this),
-      valor: valorNumero,
-    });
-  });
-
+  // ====================================================
+  // 2. CLICK EN EL BOTÓN "ACTIVAR HABILIDAD"
+  // Cuando el usuario hace click:
+  // - aumenta el contador
+  // - actualiza el texto en pantalla
+  // - muestra un alert
+  // - aplica animación a la carta
+  // ====================================================
   $("#btn-activar").on("click", function () {
+    // Suma una activación
     veces++;
 
+    // Muestra el contador en pantalla
+    // Si es 1, dice "vez"; si son más, dice "veces"
     $("#contador").text(
       "Activada " + veces + (veces === 1 ? " vez" : " veces"),
     );
 
+    // Muestra una alerta con el nombre de la habilidad
     alert("⚡ ¡Debug Dimensional activado! (×" + veces + ")");
 
+    // Reinicia la clase activa para que la animación
+    // se repita cada vez que haces click
     $(".carta").removeClass("activa");
 
+    // Un pequeño delay permite volver a agregar la clase
+    // y re-disparar la animación CSS
     setTimeout(function () {
       $(".carta").addClass("activa");
     }, 10);
   });
 
+  // ====================================================
+  // 3. HOVER SOBRE LA CARTA
+  // Cuando entra el mouse, cambia el texto de la rareza.
+  // Cuando sale, vuelve al original.
+  // ====================================================
   $(".carta")
     .on("mouseenter", function () {
       $("#rareza-texto").text("⚡ NIVEL MÁXIMO ⚡");
-      $("#clase-dev").text("Full Stack");
-      $("#avatar-dev").attr("src", avatarHover);
-
-      $(".stat-item").each(function () {
-        $(this).find(".stat-barra").css("--valor", "100%");
-        $(this).find(".stat-valor").text("100");
-        $(this)
-          .find(".stat-barra-wrap")
-          .attr("aria-valuenow", "100")
-          .attr("aria-label", $(this).find(".stat-nombre").text() + " 100");
-      });
     })
     .on("mouseleave", function () {
       $("#rareza-texto").text("✦ Épica ✦");
-      $("#clase-dev").text("Front-end");
-      $("#avatar-dev").attr("src", avatarBase);
-
-      $(".stat-item").each(function (index) {
-        const valorOriginal = statsOriginales[index].valor;
-        $(this)
-          .find(".stat-barra")
-          .css("--valor", valorOriginal + "%");
-        $(this).find(".stat-valor").text(valorOriginal);
-        $(this)
-          .find(".stat-barra-wrap")
-          .attr("aria-valuenow", valorOriginal)
-          .attr(
-            "aria-label",
-            $(this).find(".stat-nombre").text() + " " + valorOriginal,
-          );
-      });
     });
 });

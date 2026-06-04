@@ -1,0 +1,489 @@
+/* =====================================================
+   ESTILOS — Mi Carta Dev
+   Archivo encargado del diseño visual de la carta.
+   ===================================================== */
+
+/* =====================================================
+   VARIABLES GLOBALES / TOKENS
+   Aquí definimos colores, tipografías, medidas y sombras
+   para reutilizarlas en todo el CSS.
+   ===================================================== */
+:root {
+  /* Paleta base oscura */
+  --bg: #0d0d1a;
+  --surface: #1a1a2e;
+  --surface-2: #16213e;
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* Colores de texto */
+  --text: #e8e8f0;
+  --text-muted: #8888aa;
+  --text-faint: #4a4a6a;
+
+  /* Acento principal */
+  --acento: #f4c430;
+  --acento-glow: rgba(244, 196, 48, 0.35);
+
+  /* Colores según rareza */
+  --rareza-comun: #7a7a8a;
+  --rareza-rara: #4a90e2;
+  --rareza-epica: #9b59b6;
+  --rareza-legendaria: #f4c430;
+
+  /* Tipografías */
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Exo 2", sans-serif;
+
+  /* Escala tipográfica responsiva */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+
+  /* Sistema de espaciado */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+
+  /* Bordes redondeados */
+  --r-sm: 0.375rem;
+  --r-md: 0.5rem;
+  --r-lg: 0.75rem;
+  --r-xl: 1.25rem;
+  --r-2xl: 1.75rem;
+
+  /* Transición suave */
+  --trans: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Sombras */
+  --shadow-carta: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.5);
+
+  /* Ancho fijo de la carta */
+  --carta-w: 340px;
+}
+
+/* =====================================================
+   RESET BÁSICO
+   Limpia estilos por defecto del navegador.
+   ===================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+}
+
+ul[role="list"] {
+  list-style: none;
+}
+
+/* Reduce animaciones si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =====================================================
+   FONDO DECORATIVO
+   Un fondo con gradientes suaves para dar ambiente.
+   ===================================================== */
+.bg-fx {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 20% 30%,
+      rgba(155, 89, 182, 0.08) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 80% at 80% 70%,
+      rgba(74, 144, 226, 0.06) 0%,
+      transparent 60%
+    ),
+    var(--bg);
+}
+
+/* =====================================================
+   ESCENARIO
+   Centra la carta vertical y horizontalmente.
+   ===================================================== */
+.escenario {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-8) var(--sp-4);
+}
+
+/* =====================================================
+   CARTA BASE
+   Contenedor principal con fondo, borde, radio y sombra.
+   ===================================================== */
+.carta {
+  width: var(--carta-w);
+  max-width: 100%;
+  background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 2px solid var(--rareza-comun);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--shadow-carta);
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  position: relative;
+  transition:
+    transform var(--trans),
+    box-shadow var(--trans),
+    border-color var(--trans);
+  will-change: transform;
+}
+
+/* Efecto hover: la carta se eleva */
+.carta:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: var(--shadow-hover);
+}
+
+/* =====================================================
+   RAREZAS
+   Cada clase asigna un color distinto al borde/glow.
+   ===================================================== */
+.carta.rareza-comun {
+  --borde-rareza: var(--rareza-comun);
+}
+.carta.rareza-rara {
+  --borde-rareza: var(--rareza-rara);
+}
+.carta.rareza-epica {
+  --borde-rareza: var(--rareza-epica);
+}
+.carta.rareza-legendaria {
+  --borde-rareza: var(--rareza-legendaria);
+}
+
+/* Aplica el color definido arriba */
+.carta.rareza-comun,
+.carta.rareza-rara,
+.carta.rareza-epica,
+.carta.rareza-legendaria {
+  border-color: var(--borde-rareza);
+  box-shadow:
+    var(--shadow-carta),
+    0 0 16px color-mix(in oklch, var(--borde-rareza) 40%, transparent);
+}
+
+/* =====================================================
+   ESTADO ACTIVO
+   Esta clase se agrega desde jQuery cuando presionas
+   el botón "Activar habilidad".
+   ===================================================== */
+.carta.activa {
+  animation: pulso 0.6s ease-out;
+}
+
+/* Animación de activación */
+@keyframes pulso {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.04) translateY(-4px);
+  }
+  100% {
+    transform: scale(1) translateY(-8px);
+  }
+}
+
+/* =====================================================
+   CABECERA
+   ===================================================== */
+.carta__header {
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--sp-3);
+}
+
+.carta__clase {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--acento);
+  margin-bottom: var(--sp-1);
+}
+
+.carta__nombre {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.carta__subtitulo {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: var(--sp-1);
+}
+
+/* =====================================================
+   AVATAR
+   ===================================================== */
+.carta__avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carta__avatar-img {
+  width: 140px;
+  height: 140px;
+  border-radius: var(--r-xl);
+  border: 2px solid var(--border);
+  background: var(--surface-2);
+}
+
+/* Alternativa si usas emoji en vez de imagen */
+.carta__avatar-emoji {
+  font-size: 6rem;
+  line-height: 1;
+  text-align: center;
+}
+
+/* =====================================================
+   BADGE DE RAREZA
+   ===================================================== */
+.carta__rareza-badge {
+  text-align: center;
+}
+
+.rareza {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--borde-rareza, var(--rareza-comun));
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid currentColor;
+  border-radius: var(--r-lg);
+  transition:
+    color var(--trans),
+    border-color var(--trans);
+}
+
+/* =====================================================
+   TÍTULOS DE SECCIÓN
+   ===================================================== */
+.carta__section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--sp-3);
+}
+
+/* =====================================================
+   ESTADÍSTICAS
+   ===================================================== */
+.stats-lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.stat-item {
+  display: grid;
+  grid-template-columns: 6rem 1fr 2rem;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.stat-nombre {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Contenedor gris de la barra */
+.stat-barra-wrap {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+
+/* Barra coloreada */
+.stat-barra {
+  height: 100%;
+  width: var(--valor);
+  background: linear-gradient(
+    90deg,
+    var(--acento),
+    color-mix(
+      in oklch,
+      var(--acento) 60%,
+      var(--borde-rareza, var(--rareza-epica))
+    )
+  );
+  border-radius: var(--r-sm);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stat-valor {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--acento);
+  text-align: right;
+}
+
+/* =====================================================
+   HABILIDAD ESPECIAL
+   ===================================================== */
+.habilidad-card {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.habilidad-icono {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.habilidad-nombre {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--acento);
+  margin-bottom: var(--sp-1);
+}
+
+.habilidad-desc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: none;
+}
+
+/* =====================================================
+   DATO CURIOSO
+   ===================================================== */
+.carta__dato {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+  line-height: 1.5;
+}
+
+/* =====================================================
+   FOOTER / BOTÓN / CONTADOR
+   ===================================================== */
+.carta__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+#btn-activar {
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--acento);
+  color: #0d0d1a;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: var(--r-lg);
+  transition:
+    background var(--trans),
+    transform var(--trans),
+    box-shadow var(--trans);
+  min-height: 44px;
+}
+
+/* Hover del botón */
+#btn-activar:hover {
+  background: #ffd44a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--acento-glow);
+}
+
+/* Estado al presionar */
+#btn-activar:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Texto donde se muestra el contador */
+.contador {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  min-height: 1.2em;
+}
+
+/* =====================================================
+   ACCESIBILIDAD: FOCUS VISIBLE
+   ===================================================== */
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
